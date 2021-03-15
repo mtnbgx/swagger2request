@@ -8,5 +8,11 @@
 - 区别模板生成利用Ast，实现更简单更自由的生成方法
 - 代码尽量简单
 
+## 使用方法
+```bash
+npm i -g swagger2request
+swagger2request https://petstore.swagger.io/v2/swagger.json ./example.ts
+```
+
 ## 生成例子
 - [https://petstore.swagger.io/v2/swagger.json](./example/api.ts)
