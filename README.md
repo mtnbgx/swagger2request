@@ -15,4 +15,4 @@ swagger2request https://petstore.swagger.io/v2/swagger.json ./example.ts
 ```
 
 ## 生成例子
-- [https://petstore.swagger.io/v2/swagger.json](./example/api.ts)
+- [https://petstore.swagger.io/v2/swagger.json](https://github.com/mtnbgx/swagger2request/blob/master/example/api.ts)
