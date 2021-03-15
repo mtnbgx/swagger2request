@@ -8,3 +8,5 @@
 - 区别模板生成利用Ast，实现更简单更自由的生成方法
 - 代码尽量简单
 
+## 生成例子
+- [https://petstore.swagger.io/v2/swagger.json](./example/api.ts)
