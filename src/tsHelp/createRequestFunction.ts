@@ -1,4 +1,4 @@
-import ts, { factory, ObjectLiteralElementLike, ParameterDeclaration, PropertySignature } from "typescript";
+import ts, { factory, FunctionDeclaration, ObjectLiteralElementLike, ParameterDeclaration, PropertySignature } from "typescript";
 import { RequestMethod, SchemaObject } from "../types/openapi"
 import { createParamsPath } from "./createParamsPath";
 import { createPropert, createPropertyType } from "./createPropert";
@@ -56,7 +56,7 @@ export class CreateRequestFunction {
     //         ...(options || {}),
     //     });
     // }
-    getNode() {
+    getNode(): FunctionDeclaration {
         const funcParameter: ParameterDeclaration[] = []
 
         const requestObject: ObjectLiteralElementLike[] = [
@@ -133,71 +133,69 @@ export class CreateRequestFunction {
             )
         }
 
-        return [
-            factory.createFunctionDeclaration(
-                undefined,
-                [
-                    factory.createModifier(ts.SyntaxKind.ExportKeyword),
-                    factory.createModifier(ts.SyntaxKind.AsyncKeyword)
-                ],
-                undefined,
-                factory.createIdentifier(this.name),
-                undefined,
-                //方法参数
-                funcParameter.concat([
-                    //options 不处理
-                    factory.createParameterDeclaration(
+        return factory.createFunctionDeclaration(
+            undefined,
+            [
+                factory.createModifier(ts.SyntaxKind.ExportKeyword),
+                factory.createModifier(ts.SyntaxKind.AsyncKeyword)
+            ],
+            undefined,
+            factory.createIdentifier(this.name),
+            undefined,
+            //方法参数
+            funcParameter.concat([
+                //options 不处理
+                factory.createParameterDeclaration(
+                    undefined,
+                    undefined,
+                    undefined,
+                    factory.createIdentifier("options"),
+                    factory.createToken(ts.SyntaxKind.QuestionToken),
+                    factory.createTypeLiteralNode([factory.createIndexSignature(
                         undefined,
                         undefined,
-                        undefined,
-                        factory.createIdentifier("options"),
-                        factory.createToken(ts.SyntaxKind.QuestionToken),
-                        factory.createTypeLiteralNode([factory.createIndexSignature(
+                        [factory.createParameterDeclaration(
                             undefined,
                             undefined,
-                            [factory.createParameterDeclaration(
-                                undefined,
-                                undefined,
-                                undefined,
-                                factory.createIdentifier("key"),
-                                undefined,
-                                factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
-                                undefined
-                            )],
-                            factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword)
-                        )]),
-                        undefined
-                    )
-                ]),
-                undefined,
-                factory.createBlock(
-                    [factory.createReturnStatement(factory.createCallExpression(
-                        factory.createIdentifier("request"),
-                        //responses
-                        this.responses ? [createPropertyType(this.responses, 'Api')] : [],
-                        [
-                            createParamsPath(this.path, 'params'),
-                            factory.createObjectLiteralExpression(
-                                //请求参数
-                                requestObject.concat([
-                                    //options
-                                    factory.createSpreadAssignment(factory.createParenthesizedExpression(factory.createBinaryExpression(
-                                        factory.createIdentifier("options"),
-                                        factory.createToken(ts.SyntaxKind.BarBarToken),
-                                        factory.createObjectLiteralExpression(
-                                            [],
-                                            false
-                                        )
-                                    )))
-                                ]),
-                                true
-                            )
-                        ]
-                    ))],
-                    true
+                            undefined,
+                            factory.createIdentifier("key"),
+                            undefined,
+                            factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+                            undefined
+                        )],
+                        factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword)
+                    )]),
+                    undefined
                 )
+            ]),
+            undefined,
+            factory.createBlock(
+                [factory.createReturnStatement(factory.createCallExpression(
+                    factory.createIdentifier("request"),
+                    //responses
+                    this.responses ? [createPropertyType(this.responses, 'Api')] : [],
+                    [
+                        createParamsPath(this.path, 'params'),
+                        factory.createObjectLiteralExpression(
+                            //请求参数
+                            requestObject.concat([
+                                //options
+                                factory.createSpreadAssignment(factory.createParenthesizedExpression(factory.createBinaryExpression(
+                                    factory.createIdentifier("options"),
+                                    factory.createToken(ts.SyntaxKind.BarBarToken),
+                                    factory.createObjectLiteralExpression(
+                                        [],
+                                        false
+                                    )
+                                )))
+                            ]),
+                            true
+                        )
+                    ]
+                ))],
+                true
             )
-        ];
+        )
 
         //end
     }

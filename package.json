@@ -1,6 +1,6 @@
 {
   "name": "swagger2request",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "📢swagger2request 🚀 使用Node.js将OpenAPI 3.0和2.0（Swagger）模式转换为TypeScript接口和Request方法。💡 利用Typescript Ast实现",
   "main": "index.js",
   "scripts": {

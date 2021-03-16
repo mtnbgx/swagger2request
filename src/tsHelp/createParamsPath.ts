@@ -1,5 +1,11 @@
 import { factory, TemplateExpression, TemplateSpan } from "typescript";
 
+/**
+ * 创建params template string
+ * @param path 
+ * @param variableName 
+ * @returns 
+ */
 export function createParamsPath(path: string, variableName: string) {
     let result = splitStringByCharacter(path, ['{', '}'])
     if (result.length === 1) {

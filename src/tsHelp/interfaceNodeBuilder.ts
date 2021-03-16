@@ -5,7 +5,7 @@ import { createPropert } from './createPropert';
 /**
  * interface节点生成器
  */
-export class InterfaceNode {
+export class InterfaceNodeBuilder {
     private name: string
     private members: PropertySignature[] = []
 
@@ -14,7 +14,7 @@ export class InterfaceNode {
     }
 
     static build(name: string) {
-        return new InterfaceNode(name)
+        return new InterfaceNodeBuilder(name)
     }
 
     /**

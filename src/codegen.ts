@@ -1,12 +1,12 @@
 import { Openapi, RequestMethod } from './types/openapi';
-import { InterfaceNode } from './tsHelp/interfaceNode';
+import { InterfaceNodeBuilder } from './tsHelp/interfaceNodeBuilder';
 import { printNodeList } from './tsHelp/printer';
-import { DeclarationStatement, InterfaceDeclaration } from 'typescript';
+import { DeclarationStatement } from 'typescript';
 import { CreateRequestFunction } from './tsHelp/createRequestFunction';
 import { createNamespace } from './tsHelp/createNameSpace';
 import { swagger2openapi } from './utils/swaggerUtil';
 import { createType } from './tsHelp/createType';
-const converter = require('swagger2openapi');
+import { OperationClassifier } from './tsHelp/operationClassifier';
 
 export async function codegen(firstCode: string, json: any) {
     let openapi: Openapi
@@ -25,7 +25,7 @@ export async function codegen(firstCode: string, json: any) {
     const schemas = openapi.components.schemas
     Object.keys(schemas).forEach(interfaceName => {
         names.push(interfaceName)
-        const schemaInterface = InterfaceNode.build(interfaceName)
+        const schemaInterface = InterfaceNodeBuilder.build(interfaceName)
         for (const name of Object.keys(schemas[interfaceName].properties)) {
             if (Array.isArray(schemas[interfaceName].required)) {
                 schemaInterface.addProperty(name, schemas[interfaceName].properties[name], schemas[interfaceName].required.includes(name))
@@ -44,9 +44,10 @@ export async function codegen(firstCode: string, json: any) {
             }
         })
     }
-
+    //operation
     let out = firstCode + printNodeList([createNamespace('Api', namespaceItems)])
     let operationIds: string[] = []
+    const operationClassifier = new OperationClassifier()
     for (const path of Object.keys(openapi.paths)) {
         for (const method of Object.keys(openapi.paths[path])) {
             const m = method as RequestMethod
@@ -90,10 +91,15 @@ export async function codegen(firstCode: string, json: any) {
                     func.addResponses(req.responses[201].content['application/json'].schema)
                 }
             }
-            const cnode = printNodeList(func.getNode())
-            out += cnode
+            if (req.tags && req.tags.length > 0) {
+                operationClassifier.addOperation(req.tags[0], func.getNode())
+            } else {
+                operationClassifier.addOperation('unnamedRequest', func.getNode())
+            }
         }
     }
+    const cnode = printNodeList(operationClassifier.getNodes())
+    out += cnode
     console.log('code generated successfully')
     return out
 }
