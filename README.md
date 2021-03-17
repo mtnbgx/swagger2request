@@ -19,6 +19,8 @@ swagger2request https://petstore.swagger.io/v2/swagger.json ./example.ts
 
 ## 计划
 
+- [x] 支持oneOf
+- [x] 支持allOf
 - [ ] 支持错误类型
 - [ ] 添加单元测试
 - [ ] 实现真正openapi3规范

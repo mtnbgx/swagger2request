@@ -92,9 +92,9 @@ export async function codegen(firstCode: string, json: any) {
                 }
             }
             if (req.tags && req.tags.length > 0) {
-                operationClassifier.addOperation(req.tags[0], func.getNode())
+                operationClassifier.addOperation('r_' + req.tags[0], func.getNode())
             } else {
-                operationClassifier.addOperation('unnamedRequest', func.getNode())
+                operationClassifier.addOperation('r_unnamedRequest', func.getNode())
             }
         }
     }

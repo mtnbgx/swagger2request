@@ -86,14 +86,32 @@ export function createPropertyType(ojb: SchemaObject, field?: string): TypeNode 
             //一次次执行
             types.push(createPropertyType(o, field))
         }
-        //执行结果联合
-        return createUnionType(types)
+        if (types) {
+            //执行结果联合
+            return createUnionUndefinedType(createUnionType(types), ojb.nullable)
+        }
+    }
+    //allof 交叉
+    if (ojb.allOf) {
+        if (ojb.allOf.length === 1) {
+            return createUnionUndefinedType(createPropertyType(ojb.allOf[0], field), ojb.nullable)
+        }
+        const types: TypeNode[] = []
+        for (const o of ojb.allOf) {
+            //一次次执行
+            types.push(createPropertyType(o, field))
+        }
+        if (types) {
+            //返回交叉类型
+            return createUnionUndefinedType(factory.createIntersectionTypeNode(types), ojb.nullable)
+        }
     }
     return createUnionUndefinedType(
         factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword),
         ojb.nullable
     )
 }
+
 
 
 /**

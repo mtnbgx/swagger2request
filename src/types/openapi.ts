@@ -73,4 +73,5 @@ export interface SchemaObject {
     '$ref'?: string
     items?: SchemaObject
     oneOf?: SchemaObject[]
+    allOf?: SchemaObject[]
 }
