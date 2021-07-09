@@ -1,5 +1,5 @@
-import ts, { factory, TypeNode } from "typescript"
-import { SchemaObject } from "../types/openapi"
+import ts, { factory, TypeNode } from 'typescript'
+import { SchemaObject } from '../types/openapi'
 
 /**
  * 创建参数

@@ -4,7 +4,8 @@
   "description": "📢swagger2request 🚀 使用Node.js将OpenAPI 3.0和2.0（Swagger）模式转换为TypeScript接口和Request方法。💡 利用Typescript Ast实现",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "lint": "eslint \"src/**/*.ts\" --fix"
   },
   "bin": {
     "swagger2request": "./bin/cli.js"
@@ -24,12 +25,30 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.33",
     "@types/node-fetch": "^2.5.8",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.1",
     "jest": "^26.6.3",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2",
     "ts-jest": "^26.5.3",
     "ts-node": "^9.1.1"
   },
   "files": [
     "dist",
     "bin"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "eslint --fix"
+    ]
+  }
 }

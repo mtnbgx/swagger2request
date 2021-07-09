@@ -1,6 +1,6 @@
-import ts, { factory } from "typescript";
-import { SchemaObject } from "../types/openapi";
-import { createPropertyType } from "./createPropert";
+import ts, { factory } from 'typescript';
+import { SchemaObject } from '../types/openapi';
+import { createPropertyType } from './createPropert';
 
 export function createType(name: string, ojb: SchemaObject) {
     return factory.createTypeAliasDeclaration(

@@ -46,7 +46,7 @@ export async function codegen(firstCode: string, json: any) {
     }
     //operation
     let out = firstCode + printNodeList([createNamespace('Api', namespaceItems)])
-    let operationIds: string[] = []
+    const operationIds: string[] = []
     const operationClassifier = new OperationClassifier()
     for (const path of Object.keys(openapi.paths)) {
         for (const method of Object.keys(openapi.paths[path])) {
@@ -61,7 +61,7 @@ export async function codegen(firstCode: string, json: any) {
 
             //处理parameters
             if (req.parameters && req.parameters.length > 0) {
-                for (let pa of req.parameters) {
+                for (const pa of req.parameters) {
                     if (pa.in === 'path') {
                         func.addParam(pa.name, pa.schema)
                     } else {

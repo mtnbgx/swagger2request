@@ -1,13 +1,13 @@
-import { factory, TemplateExpression, TemplateSpan } from "typescript";
+import { factory, TemplateExpression, TemplateSpan } from 'typescript';
 
 /**
  * 创建params template string
- * @param path 
- * @param variableName 
- * @returns 
+ * @param path
+ * @param variableName
+ * @returns
  */
 export function createParamsPath(path: string, variableName: string) {
-    let result = splitStringByCharacter(path, ['{', '}'])
+    const result = splitStringByCharacter(path, ['{', '}'])
     if (result.length === 1) {
         return factory.createNoSubstitutionTemplateLiteral(
             result[0],
@@ -47,10 +47,10 @@ export function createParamsPath(path: string, variableName: string) {
  * 按字符切分字符串
  * @param path 要切分的字符串
  * @param matchArr 只能匹配长度为1的字符串
- * @returns 
+ * @returns
  */
 export function splitStringByCharacter(path: string, matchArr: string[]) {
-    let result: string[] = []
+    const result: string[] = []
     let temp = ''
     for (let i = 0; i < path.length; i++) {
         if (matchArr.includes(path[i])) {

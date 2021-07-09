@@ -1,7 +1,7 @@
-import ts, { factory, FunctionDeclaration, ObjectLiteralElementLike, ParameterDeclaration, PropertySignature } from "typescript";
-import { RequestMethod, SchemaObject } from "../types/openapi"
-import { createParamsPath } from "./createParamsPath";
-import { createPropert, createPropertyType } from "./createPropert";
+import ts, { factory, FunctionDeclaration, ObjectLiteralElementLike, ParameterDeclaration, PropertySignature } from 'typescript';
+import { RequestMethod, SchemaObject } from '../types/openapi'
+import { createParamsPath } from './createParamsPath';
+import { createPropert, createPropertyType } from './createPropert';
 
 export class CreateRequestFunction {
     name: string
@@ -61,7 +61,7 @@ export class CreateRequestFunction {
 
         const requestObject: ObjectLiteralElementLike[] = [
             factory.createPropertyAssignment(
-                factory.createIdentifier("method"),
+                factory.createIdentifier('method'),
                 factory.createStringLiteral(this.method.toUpperCase())
             )
         ]
@@ -71,7 +71,7 @@ export class CreateRequestFunction {
                     undefined,
                     undefined,
                     undefined,
-                    factory.createIdentifier("params"),
+                    factory.createIdentifier('params'),
                     undefined,
                     factory.createTypeLiteralNode(this.params),
                     undefined
@@ -79,7 +79,7 @@ export class CreateRequestFunction {
             )
             requestObject.push(
                 factory.createShorthandPropertyAssignment(
-                    factory.createIdentifier("params"),
+                    factory.createIdentifier('params'),
                     undefined
                 )
             )
@@ -90,7 +90,7 @@ export class CreateRequestFunction {
                     undefined,
                     undefined,
                     undefined,
-                    factory.createIdentifier("query"),
+                    factory.createIdentifier('query'),
                     undefined,
                     factory.createTypeLiteralNode(this.querys),
                     undefined
@@ -99,14 +99,14 @@ export class CreateRequestFunction {
             if (this.method !== 'post') {
                 requestObject.push(
                     factory.createPropertyAssignment(
-                        factory.createIdentifier("data"),
-                        factory.createIdentifier("query")
+                        factory.createIdentifier('data'),
+                        factory.createIdentifier('query')
                     )
                 )
             } else {
                 requestObject.push(
                     factory.createShorthandPropertyAssignment(
-                        factory.createIdentifier("query"),
+                        factory.createIdentifier('query'),
                         undefined
                     )
                 )
@@ -119,7 +119,7 @@ export class CreateRequestFunction {
                     undefined,
                     undefined,
                     undefined,
-                    factory.createIdentifier("body"),
+                    factory.createIdentifier('body'),
                     undefined,
                     createPropertyType(this.body, 'Api'),
                     undefined
@@ -127,8 +127,8 @@ export class CreateRequestFunction {
             )
             requestObject.push(
                 factory.createPropertyAssignment(
-                    factory.createIdentifier("data"),
-                    factory.createIdentifier("body")
+                    factory.createIdentifier('data'),
+                    factory.createIdentifier('body')
                 )
             )
         }
@@ -149,7 +149,7 @@ export class CreateRequestFunction {
                     undefined,
                     undefined,
                     undefined,
-                    factory.createIdentifier("options"),
+                    factory.createIdentifier('options'),
                     factory.createToken(ts.SyntaxKind.QuestionToken),
                     factory.createTypeLiteralNode([factory.createIndexSignature(
                         undefined,
@@ -158,7 +158,7 @@ export class CreateRequestFunction {
                             undefined,
                             undefined,
                             undefined,
-                            factory.createIdentifier("key"),
+                            factory.createIdentifier('key'),
                             undefined,
                             factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
                             undefined
@@ -171,7 +171,7 @@ export class CreateRequestFunction {
             undefined,
             factory.createBlock(
                 [factory.createReturnStatement(factory.createCallExpression(
-                    factory.createIdentifier("request"),
+                    factory.createIdentifier('request'),
                     //responses
                     this.responses ? [createPropertyType(this.responses, 'Api')] : [],
                     [
@@ -181,7 +181,7 @@ export class CreateRequestFunction {
                             requestObject.concat([
                                 //options
                                 factory.createSpreadAssignment(factory.createParenthesizedExpression(factory.createBinaryExpression(
-                                    factory.createIdentifier("options"),
+                                    factory.createIdentifier('options'),
                                     factory.createToken(ts.SyntaxKind.BarBarToken),
                                     factory.createObjectLiteralExpression(
                                         [],

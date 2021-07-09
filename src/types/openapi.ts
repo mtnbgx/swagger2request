@@ -9,11 +9,13 @@ export interface Openapi {
 }
 
 export type RequestMethod = 'get' | 'post'
+
 interface Paths {
     [propName: string]: { [key in RequestMethod]: Request };
 }
 
 type RequestCode = '200' | '201'
+
 interface Request {
     operationId: string
     summary: string
@@ -25,15 +27,16 @@ interface Request {
 
 interface RequestBody {
     required: boolean
-    content: { "application/json": { schema: SchemaObject } }
+    content: { 'application/json': { schema: SchemaObject } }
 }
 
 interface Responses {
     description: string
-    content?: { "application/json": { schema: SchemaObject } }
+    content?: { 'application/json': { schema: SchemaObject } }
 }
 
 type ParameterIn = 'path' | 'query'
+
 export interface Parameter {
     name: string
     required: boolean
@@ -52,8 +55,9 @@ interface Components {
     schemas: Schemas;
     requestBodies?: RequestBodies
 }
+
 interface RequestBodies {
-    [propName: string]: { content: { "application/json": { schema: SchemaObject } } };
+    [propName: string]: { content: { 'application/json': { schema: SchemaObject } } };
 }
 
 interface Schemas {
@@ -74,5 +78,5 @@ export interface SchemaObject {
     items?: SchemaObject
     oneOf?: SchemaObject[]
     allOf?: SchemaObject[]
-    enum?: string[]|number[]
+    enum?: string[] | number[]
 }
