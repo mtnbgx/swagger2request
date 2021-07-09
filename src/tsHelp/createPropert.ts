@@ -3,10 +3,10 @@ import { SchemaObject } from "../types/openapi"
 
 /**
  * 创建参数
- * @param name 
- * @param ojb 
- * @param required 
- * @returns 
+ * @param name
+ * @param ojb
+ * @param required
+ * @returns
  */
 export function createPropert(name: string, ojb: SchemaObject, required = true, field?: string) {
     return factory.createPropertySignature(
@@ -19,8 +19,8 @@ export function createPropert(name: string, ojb: SchemaObject, required = true, 
 
 /**
  * 创建参数类型
- * @param ojb 
- * @returns 
+ * @param ojb
+ * @returns
  */
 export function createPropertyType(ojb: SchemaObject, field?: string): TypeNode {
     //直接引用
@@ -49,6 +49,18 @@ export function createPropertyType(ojb: SchemaObject, field?: string): TypeNode 
     //非数组基本类型
     if (ojb.type && ojb.type !== 'array') {
         //TODO 还有很多类型
+        //枚举
+        if(['number','string'].includes(ojb.type) && ojb.enum){
+            const types: TypeNode[] = []
+            for (const o of ojb.enum) {
+                if(typeof o ==='number'){
+                    types.push(factory.createLiteralTypeNode(factory.createNumericLiteral(o)))
+                }else{
+                    types.push(factory.createLiteralTypeNode(factory.createStringLiteral(o)))
+                }
+            }
+            return createUnionUndefinedType(createUnionType(types), ojb.nullable)
+        }
         if (ojb.type === 'string') {
             return createUnionUndefinedType(
                 factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
@@ -106,6 +118,7 @@ export function createPropertyType(ojb: SchemaObject, field?: string): TypeNode 
             return createUnionUndefinedType(factory.createIntersectionTypeNode(types), ojb.nullable)
         }
     }
+
     return createUnionUndefinedType(
         factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword),
         ojb.nullable
@@ -116,9 +129,9 @@ export function createPropertyType(ojb: SchemaObject, field?: string): TypeNode 
 
 /**
  * 创建联合类型
- * @param type 
- * @param need 
- * @returns 
+ * @param type
+ * @param need
+ * @returns
  */
 function createUnionType(types: TypeNode[]) {
     return factory.createUnionTypeNode(types)
@@ -127,9 +140,9 @@ function createUnionType(types: TypeNode[]) {
 
 /**
  * 创建包含undefined的联合类型
- * @param type 
- * @param need 
- * @returns 
+ * @param type
+ * @param need
+ * @returns
  */
 function createUnionUndefinedType(type: TypeNode, need = false) {
     if (need) {

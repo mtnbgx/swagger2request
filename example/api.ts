@@ -1,3 +1,4 @@
+// @ts-ignore
 import {request} from "./request"
 
 export namespace Api {
@@ -16,7 +17,7 @@ export namespace Api {
         name: string;
         photoUrls: string[];
         tags?: Tag[];
-        status?: string;
+        status?: "available" | "pending" | "sold";
     }
     export interface Tag {
         id: number;
@@ -27,7 +28,7 @@ export namespace Api {
         petId: number;
         quantity: number;
         shipDate: string;
-        status: string;
+        status: "placed" | "approved" | "delivered";
         complete: boolean;
     }
     export interface User {
@@ -42,7 +43,7 @@ export namespace Api {
     }
     export type UserArray = User[];
 }
-export namespace pet {
+export namespace r_pet {
     export async function uploadFile(params: {
         petId: number;
     }, options?: {
@@ -73,7 +74,7 @@ export namespace pet {
         });
     }
     export async function findPetsByStatus(query: {
-        status: string[];
+        status: ("available" | "pending" | "sold")[];
     }, options?: {
         [key: string]: any;
     }) {
@@ -131,7 +132,15 @@ export namespace pet {
         });
     }
 }
-export namespace store {
+export namespace r_store {
+    export async function getInventory(options?: {
+        [key: string]: any;
+    }) {
+        return request<any>(`/store/inventory`, {
+            method: "GET",
+            ...(options || {})
+        });
+    }
     export async function placeOrder(body: Api.Order, options?: {
         [key: string]: any;
     }) {
@@ -163,25 +172,8 @@ export namespace store {
             ...(options || {})
         });
     }
-    export async function getInventory(options?: {
-        [key: string]: any;
-    }) {
-        return request<any>(`/store/inventory`, {
-            method: "GET",
-            ...(options || {})
-        });
-    }
 }
-export namespace user {
-    export async function createUsersWithArrayInput(body: Api.UserArray, options?: {
-        [key: string]: any;
-    }) {
-        return request(`/user/createWithArray`, {
-            method: "POST",
-            data: body,
-            ...(options || {})
-        });
-    }
+export namespace r_user {
     export async function createUsersWithListInput(body: Api.UserArray, options?: {
         [key: string]: any;
     }) {
@@ -242,6 +234,15 @@ export namespace user {
     }) {
         return request(`/user/logout`, {
             method: "GET",
+            ...(options || {})
+        });
+    }
+    export async function createUsersWithArrayInput(body: Api.UserArray, options?: {
+        [key: string]: any;
+    }) {
+        return request(`/user/createWithArray`, {
+            method: "POST",
+            data: body,
             ...(options || {})
         });
     }

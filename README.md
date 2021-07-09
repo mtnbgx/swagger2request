@@ -21,7 +21,6 @@ swagger2request https://petstore.swagger.io/v2/swagger.json ./example.ts
 
 - [x] 支持oneOf
 - [x] 支持allOf
+- [x] 支持enum
 - [ ] 支持错误类型
 - [ ] 添加单元测试
-- [ ] 实现真正openapi3规范
-- [ ] 使代码生成更加语义化

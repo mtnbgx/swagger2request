@@ -74,4 +74,5 @@ export interface SchemaObject {
     items?: SchemaObject
     oneOf?: SchemaObject[]
     allOf?: SchemaObject[]
+    enum?: string[]|number[]
 }
